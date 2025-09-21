@@ -26,11 +26,19 @@ const makeCommits = (n)=>{
     const y = random.int(0,6);
     const date = moment().subtract(1, 'y').add (1, 'd').add(x, 'w').add(y, 'd').format();
     const data = {date: date};
-    console.log(date)
-    jsonfile.writeFile(path, data, ()=> {
+    console.log(date);
+    let today = moment().startOf('day');
+if (moment(date).isAfter(today)) {
+    console.log('The date is in the future.');
+}else{
+  jsonfile.writeFile(path, data, ()=> {
         simpleGit()
         .add([path])
-        .commit(date, {'--date':date},makeCommits.bind(this, --n))
-    })
+        .commit(date, {'--date':date},makeCommits.bind(this, --n));
+    });
 }
-makeCommits(100);
+   
+
+ 
+}
+makeCommits(100); 
